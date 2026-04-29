@@ -1,4 +1,4 @@
-export const UNLOCK_AT = new Date("2026-04-08T00:00:00-04:00");
+export const UNLOCK_AT = new Date("2026-05-08T00:00:00-04:00");
 
 export function isBirthdayUnlocked(now = new Date()) {
 	return now.getTime() >= UNLOCK_AT.getTime();
