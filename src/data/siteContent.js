@@ -238,6 +238,12 @@ export const letterParagraphs = [
   'Feliz cumpleaños, Verónica. Te amo y deseo que este nuevo año te traiga paz, salud, sueños cumplidos y mucho amor del bueno.',
 ]
 
+export const letterPhoto = {
+  image: photoPath('carta-familia.jpg'),
+  alt: 'Veronica junto a su familia en una celebración',
+  objectPosition: 'center center',
+}
+
 export const guestMessages = []
 
 export const photoReplacementNote = {

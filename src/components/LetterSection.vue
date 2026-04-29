@@ -6,6 +6,10 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  image: {
+    type: Object,
+    default: null,
+  },
 })
 
 const letter = ref(null)
@@ -17,6 +21,14 @@ let timer
 const fullText = computed(() => props.paragraphs.join('\n\n'))
 const typedParagraphs = computed(() => typedText.value.split('\n\n').filter(Boolean))
 const isComplete = computed(() => typedText.value.length >= fullText.value.length)
+const letterPhotoStyle = computed(() => {
+  if (!props.image?.image) return {}
+
+  return {
+    '--letter-photo-bg': `url(${props.image.image})`,
+    '--letter-photo-position': props.image.objectPosition || 'center center',
+  }
+})
 
 const startTyping = () => {
   if (started.value) return
@@ -64,17 +76,28 @@ onBeforeUnmount(() => {
         <h2>Una carta desde mi corazón</h2>
       </div>
 
-      <article ref="letter" class="letter-paper" data-reveal>
-        <div class="letter-mark" aria-hidden="true" />
-        <p v-for="(paragraph, index) in typedParagraphs" :key="index">
-          {{ paragraph }}
-          <span
-            v-if="index === typedParagraphs.length - 1 && !isComplete"
-            class="typing-cursor"
-            aria-hidden="true"
-          />
-        </p>
-      </article>
+      <div class="letter-content">
+        <article ref="letter" class="letter-paper" data-reveal>
+          <div class="letter-mark" aria-hidden="true" />
+          <p v-for="(paragraph, index) in typedParagraphs" :key="index">
+            {{ paragraph }}
+            <span
+              v-if="index === typedParagraphs.length - 1 && !isComplete"
+              class="typing-cursor"
+              aria-hidden="true"
+            />
+          </p>
+        </article>
+
+        <figure
+          v-if="image?.image"
+          class="letter-photo-card"
+          :style="letterPhotoStyle"
+          data-reveal
+        >
+          <img :src="image.image" :alt="image.alt" loading="lazy" />
+        </figure>
+      </div>
     </div>
   </section>
 </template>

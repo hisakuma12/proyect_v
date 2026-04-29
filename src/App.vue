@@ -5,7 +5,6 @@ import AmbientEffects from './components/AmbientEffects.vue'
 import CountdownSection from './components/CountdownSection.vue'
 import FinaleSection from './components/FinaleSection.vue'
 import GallerySection from './components/GallerySection.vue'
-import GuestMessages from './components/GuestMessages.vue'
 import HeroSection from './components/HeroSection.vue'
 import LetterSection from './components/LetterSection.vue'
 import TimelineSection from './components/TimelineSection.vue'
@@ -16,9 +15,9 @@ import { useViewTransition } from './composables/useViewTransition'
 import {
   birthday,
   galleryPhotos,
-  guestMessages,
   hero,
   letterParagraphs,
+  letterPhoto,
   timelineMoments,
 } from './data/siteContent'
 import { getCountdownParts, isBirthdayUnlocked } from './services/birthdayGate'
@@ -31,7 +30,16 @@ let gateTimer
 
 const { transition } = useViewTransition()
 const { observe } = useScrollReveal()
-const { isPlaying, label: musicLabel, toggle: toggleMusic } = useMusic()
+const {
+  audioElement,
+  handleEnded,
+  handlePause,
+  handlePlay,
+  isPlaying,
+  label: musicLabel,
+  musicSrc,
+  toggle: toggleMusic,
+} = useMusic()
 
 const openGift = async () => {
   if (!unlocked.value) return
@@ -94,6 +102,18 @@ onBeforeUnmount(() => {
     <span>{{ isPlaying ? 'Música' : 'Silencio' }}</span>
   </button>
 
+  <audio
+    v-if="opened && unlocked"
+    ref="audioElement"
+    class="music-player"
+    :src="musicSrc"
+    preload="metadata"
+    loop
+    @ended="handleEnded"
+    @pause="handlePause"
+    @play="handlePlay"
+  />
+
   <button
     v-if="opened && unlocked"
     class="floating-action replay-button"
@@ -112,16 +132,13 @@ onBeforeUnmount(() => {
       :countdown="getCountdownParts(now)"
       @open="openGift"
     />
-
-    <GuestMessages :initial-messages="guestMessages" />
   </template>
 
   <main v-else id="experiencia" class="experience" tabindex="-1">
     <HeroSection :hero="hero" />
     <TimelineSection :moments="timelineMoments" />
     <GallerySection :photos="galleryPhotos" />
-    <LetterSection :paragraphs="letterParagraphs" />
-    <GuestMessages :initial-messages="guestMessages" />
+    <LetterSection :paragraphs="letterParagraphs" :image="letterPhoto" />
     <CountdownSection :birthday="birthday" />
     <FinaleSection @reset="resetExperience" />
   </main>
