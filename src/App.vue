@@ -7,6 +7,7 @@ import FinaleSection from './components/FinaleSection.vue'
 import GallerySection from './components/GallerySection.vue'
 import HeroSection from './components/HeroSection.vue'
 import LetterSection from './components/LetterSection.vue'
+import ScrubSequenceSection from './components/ScrubSequenceSection.vue'
 import TimelineSection from './components/TimelineSection.vue'
 import WelcomeGate from './components/WelcomeGate.vue'
 import { useMusic } from './composables/useMusic'
@@ -137,6 +138,7 @@ onBeforeUnmount(() => {
   <main v-else id="experiencia" class="experience" tabindex="-1">
     <HeroSection :hero="hero" />
     <TimelineSection :moments="timelineMoments" />
+    <ScrubSequenceSection :photos="galleryPhotos" />
     <GallerySection :photos="galleryPhotos" />
     <LetterSection :paragraphs="letterParagraphs" :image="letterPhoto" />
     <CountdownSection :birthday="birthday" />
