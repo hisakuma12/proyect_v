@@ -2,7 +2,6 @@
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { RotateCcw, Volume2, VolumeX } from 'lucide-vue-next'
 import AmbientEffects from './components/AmbientEffects.vue'
-import CountdownSection from './components/CountdownSection.vue'
 import FinaleSection from './components/FinaleSection.vue'
 import GallerySection from './components/GallerySection.vue'
 import HeroSection from './components/HeroSection.vue'
@@ -15,7 +14,6 @@ import { useMusic } from './composables/useMusic'
 import { useScrollReveal } from './composables/useScrollReveal'
 import { useViewTransition } from './composables/useViewTransition'
 import {
-  birthday,
   galleryPhotos,
   hero,
   letterParagraphs,
@@ -37,7 +35,6 @@ const progressItems = [
   { id: 'recuerdos', label: 'Recuerdos' },
   { id: 'galeria', label: 'Galería' },
   { id: 'carta', label: 'Carta' },
-  { id: 'contador', label: 'Cuenta' },
   { id: 'final', label: 'Final' },
 ]
 
@@ -154,7 +151,6 @@ onBeforeUnmount(() => {
     <ScrubSequenceSection :photos="scrubPhotos" />
     <GallerySection :photos="galleryPhotos" />
     <LetterSection :paragraphs="letterParagraphs" :image="letterPhoto" />
-    <CountdownSection :birthday="birthday" />
     <FinaleSection @reset="resetExperience" />
   </main>
 </template>
