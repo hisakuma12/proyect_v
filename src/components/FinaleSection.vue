@@ -5,7 +5,7 @@ const emit = defineEmits(['reset'])
 </script>
 
 <template>
-  <section class="finale-section">
+  <section id="final" class="finale-section">
     <div class="finale-content" data-reveal>
       <Sparkles :size="28" aria-hidden="true" />
       <h2>Gracias por existir y por hacer mi vida más bonita.</h2>

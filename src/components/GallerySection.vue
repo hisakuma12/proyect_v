@@ -11,6 +11,8 @@
 	});
 
 	const selectedPhoto = ref(null);
+	const prefersReducedMotion = () =>
+		window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 	const selectedPhotoIndex = computed(() => {
 		if (!selectedPhoto.value) return -1;
@@ -22,6 +24,8 @@
 	const openPhoto = async (photo) => {
 		selectedPhoto.value = photo;
 		await nextTick();
+
+		if (prefersReducedMotion()) return;
 
 		gsap.fromTo(
 			".gallery-modal",
@@ -57,6 +61,11 @@
 	const closePhoto = async () => {
 		if (!selectedPhoto.value) return;
 
+		if (prefersReducedMotion()) {
+			selectedPhoto.value = null;
+			return;
+		}
+
 		await new Promise((resolve) => {
 			gsap.to(".gallery-modal", {
 				autoAlpha: 0,
@@ -82,6 +91,8 @@
 		selectedPhoto.value = nextPhoto;
 
 		await nextTick();
+		if (prefersReducedMotion()) return;
+
 		gsap.fromTo(
 			".modal-photo-frame img, .modal-photo figcaption",
 			{ autoAlpha: 0, y: 8, filter: "blur(6px)" },
@@ -118,6 +129,10 @@
 			<div class="section-heading" data-reveal>
 				<span class="eyebrow">Recuerdos</span>
 				<h2>Una galería para volver a sonreír</h2>
+				<p>
+					Tocá cualquier foto para verla con calma y pasar de un
+					recuerdo a otro.
+				</p>
 			</div>
 
 			<div class="gallery-grid">
@@ -174,15 +189,18 @@
 				:aria-label="selectedPhoto.title"
 				@click.self="closePhoto"
 			>
-				<button
-					class="modal-button modal-close"
-					type="button"
-					aria-label="Cerrar imagen"
-					title="Cerrar imagen"
-					@click="closePhoto"
-				>
-					<X :size="22" aria-hidden="true" />
-				</button>
+				<div class="gallery-modal-toolbar">
+					<span>{{ selectedPhotoIndex + 1 }} de {{ photos.length }}</span>
+					<button
+						class="modal-button modal-close"
+						type="button"
+						aria-label="Cerrar imagen"
+						title="Cerrar imagen"
+						@click="closePhoto"
+					>
+						<X :size="22" aria-hidden="true" />
+					</button>
+				</div>
 
 				<button
 					class="modal-button modal-prev"

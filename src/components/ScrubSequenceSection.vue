@@ -90,6 +90,7 @@ onBeforeUnmount(() => {
 <template>
   <section
     ref="sectionElement"
+    id="recuerdos"
     class="scrub-section"
     aria-labelledby="scrub-title"
   >
@@ -102,6 +103,7 @@ onBeforeUnmount(() => {
             Cada movimiento del scroll cambia el cuadro, como pasar despacito
             por esos momentos que vale la pena mirar otra vez.
           </p>
+          <span class="scrub-hint">Scroll o deslizador para avanzar</span>
         </div>
 
         <figure class="scrub-stage" data-reveal>
@@ -135,14 +137,21 @@ onBeforeUnmount(() => {
 
           <label class="scrub-control">
             <span class="sr-only">Avanzar recuerdos</span>
+            <span class="scrub-control-caption" aria-hidden="true">
+              Inicio
+            </span>
             <input
               type="range"
               min="0"
               max="100"
               :value="Math.round(progress * 100)"
               aria-label="Avanzar recuerdos"
+              :style="{ '--scrub-progress': `${Math.round(progress * 100)}%` }"
               @input="handleSliderInput"
             />
+            <span class="scrub-control-caption" aria-hidden="true">
+              Ahora
+            </span>
           </label>
         </figure>
       </div>

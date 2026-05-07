@@ -30,7 +30,11 @@ const onScroll = () => {
 }
 
 const scrollToTimeline = () => {
-  document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' })
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ? 'auto'
+    : 'smooth'
+
+  document.getElementById('timeline')?.scrollIntoView({ behavior })
 }
 
 onMounted(() => {
@@ -68,7 +72,7 @@ onBeforeUnmount(() => {
       </p>
 
       <button
-        class="icon-circle"
+        class="icon-circle hero-scroll-button"
         type="button"
         aria-label="Ir a la línea de tiempo"
         title="Ir a la línea de tiempo"

@@ -7,6 +7,7 @@ import FinaleSection from './components/FinaleSection.vue'
 import GallerySection from './components/GallerySection.vue'
 import HeroSection from './components/HeroSection.vue'
 import LetterSection from './components/LetterSection.vue'
+import ExperienceProgress from './components/ExperienceProgress.vue'
 import ScrubSequenceSection from './components/ScrubSequenceSection.vue'
 import TimelineSection from './components/TimelineSection.vue'
 import WelcomeGate from './components/WelcomeGate.vue'
@@ -28,6 +29,16 @@ const now = ref(new Date())
 const unlocked = ref(isBirthdayUnlocked(now.value))
 const opened = ref(unlocked.value && localStorage.getItem(OPEN_STORAGE_KEY) === 'true')
 let gateTimer
+
+const progressItems = [
+  { id: 'hero', label: 'Inicio' },
+  { id: 'timeline', label: 'Historia' },
+  { id: 'recuerdos', label: 'Recuerdos' },
+  { id: 'galeria', label: 'Galería' },
+  { id: 'carta', label: 'Carta' },
+  { id: 'contador', label: 'Cuenta' },
+  { id: 'final', label: 'Final' },
+]
 
 const { transition } = useViewTransition()
 const { observe } = useScrollReveal()
@@ -136,6 +147,7 @@ onBeforeUnmount(() => {
   </template>
 
   <main v-else id="experiencia" class="experience" tabindex="-1">
+    <ExperienceProgress :items="progressItems" />
     <HeroSection :hero="hero" />
     <TimelineSection :moments="timelineMoments" />
     <ScrubSequenceSection :photos="galleryPhotos" />
