@@ -20,6 +20,7 @@ import {
   hero,
   letterParagraphs,
   letterPhoto,
+  scrubPhotos,
   timelineMoments,
 } from './data/siteContent'
 import { getCountdownParts, isBirthdayUnlocked } from './services/birthdayGate'
@@ -150,7 +151,7 @@ onBeforeUnmount(() => {
     <ExperienceProgress :items="progressItems" />
     <HeroSection :hero="hero" />
     <TimelineSection :moments="timelineMoments" />
-    <ScrubSequenceSection :photos="galleryPhotos" />
+    <ScrubSequenceSection :photos="scrubPhotos" />
     <GallerySection :photos="galleryPhotos" />
     <LetterSection :paragraphs="letterParagraphs" :image="letterPhoto" />
     <CountdownSection :birthday="birthday" />

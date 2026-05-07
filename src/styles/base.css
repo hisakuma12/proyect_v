@@ -783,41 +783,68 @@ p {
   margin: 0;
 }
 
-.scrub-frame {
+.scrub-card-slider {
   position: relative;
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  min-height: clamp(400px, 62dvh, 640px);
+  min-height: clamp(410px, 62dvh, 640px);
   overflow: hidden;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.74);
-  border-radius: 8px;
-  padding: clamp(10px, 1.5vw, 16px);
-  background: rgba(255, 255, 255, 0.66);
-  box-shadow: var(--shadow);
+  padding: clamp(18px, 3vw, 34px) 0;
   isolation: isolate;
 }
 
-.scrub-frame::before {
+.scrub-card {
   position: absolute;
-  inset: -32px;
+  inset: auto;
+  z-index: 1;
+  display: grid;
+  width: min(72%, 470px);
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  padding: clamp(10px, 1.5vw, 16px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 24px 70px rgba(112, 50, 74, 0.18);
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+}
+
+.scrub-card::before {
+  position: absolute;
+  inset: -28px;
   z-index: 0;
   background-image: var(--scrub-bg);
   background-position: center;
   background-size: cover;
   content: '';
-  opacity: 0.42;
+  opacity: 0.38;
   transform: scale(1.08);
-  filter: blur(22px) saturate(1.05);
+  filter: blur(24px) saturate(1.04);
 }
 
-.scrub-frame img {
+.scrub-card-photo {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  place-items: center;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.scrub-card img {
   position: relative;
   z-index: 1;
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: min(580px, 59dvh);
+  max-height: 100%;
   opacity: 0;
   transform: scale(0.992);
   filter: saturate(0.96) contrast(0.98);
@@ -827,9 +854,13 @@ p {
     filter 220ms var(--ease);
 }
 
-.scrub-frame.is-loaded img {
+.scrub-card.is-loaded img {
   opacity: 1;
   transform: scale(1);
+}
+
+.scrub-card.is-active {
+  box-shadow: 0 28px 80px rgba(112, 50, 74, 0.23);
 }
 
 .scrub-stage figcaption {
@@ -869,6 +900,43 @@ p {
   font-size: 0.98rem;
   font-weight: 650;
   line-height: 1.35;
+}
+
+.scrub-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  min-height: 42px;
+}
+
+.scrub-action {
+  display: inline-grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(200, 93, 131, 0.18);
+  border-radius: 50%;
+  color: #8a3f5d;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 14px 30px rgba(112, 50, 74, 0.12);
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  transition:
+    transform 160ms var(--ease),
+    opacity 160ms var(--ease),
+    background 160ms var(--ease);
+}
+
+.scrub-action:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.scrub-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
 }
 
 .scrub-control {
@@ -1874,7 +1942,7 @@ html[data-transition^='gallery']::view-transition-new(root) {
     max-width: 680px;
   }
 
-  .scrub-frame {
+  .scrub-card-slider {
     min-height: clamp(360px, 72vw, 560px);
   }
 
@@ -2040,8 +2108,12 @@ html[data-transition^='gallery']::view-transition-new(root) {
     gap: 13px;
   }
 
-  .scrub-frame {
+  .scrub-card-slider {
     min-height: clamp(300px, 96vw, 430px);
+  }
+
+  .scrub-card {
+    width: min(78%, 330px);
   }
 
   .scrub-stage figcaption {
